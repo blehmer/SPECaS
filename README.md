@@ -5,7 +5,7 @@ A lightweight framework for treating product specs as **source code**: human-rea
 ## Why
 Classic specs fell out of favor in agile shops—too long, out of date, rarely read. Modern AI changes the calculus: short **atomic requirements** (atoms) with invariants, acceptance, test vectors, and prompts can be diffed, reviewed (deliberated), executed, and evaluated—just like code.
 
-"Spec as Source" was described by Sean Grove. To learn more see <https://notebooklm.google.com/notebook/42929e95-0cbe-44a7-bcd7-23d90a98bc9a>.
+"Spec as Source" was described by Sean Grove in a talk he gave called "The New Code".
 
 ## Repository layout
 - `spec.md` — **template** spec that demonstrates the expected section ordering and atom structure. Use it as a starting point for new product specs.
