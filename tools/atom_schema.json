@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/atom.schema.json",
+  "title": "Spec Atom",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "type",
+    "scope",
+    "status",
+    "depends_on",
+    "rationale",
+    "spec",
+    "invariants",
+    "acceptance",
+    "testvectors",
+    "prompts"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^(RQ|ALG|QAT)-\\d+$"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "Functional",
+        "Nonfunctional (Security)",
+        "Nonfunctional (Privacy)",
+        "Nonfunctional (Performance)",
+        "Nonfunctional (Reliability)",
+        "Nonfunctional (Cost)",
+        "Nonfunctional (Operability)",
+        "Nonfunctional (Compliance)",
+        "Nonfunctional (Other)"
+      ]
+    },
+    "scope": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9]+(?:[.-][A-Za-z0-9]+)+$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Proposed",
+        "Accepted",
+        "Deprecated"
+      ]
+    },
+    "depends_on": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(RQ|ALG|QAT)-\\d+$"
+      },
+      "uniqueItems": true
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 5
+    },
+    "spec": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "invariants": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "acceptance": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "testvectors": {
+      "type": [
+        "array",
+        "object"
+      ],
+      "items": {
+        "type": "object"
+      }
+    },
+    "prompts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "GEN-CODE",
+        "GEN-TESTS"
+      ],
+      "properties": {
+        "GEN-CODE": {
+          "type": "string",
+          "minLength": 5
+        },
+        "GEN-TESTS": {
+          "type": "string",
+          "minLength": 5
+        }
+      }
+    }
+  }
+}

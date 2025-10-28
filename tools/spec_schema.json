@@ -1,0 +1,638 @@
+{
+  "$id": "tools/spec_schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Spec-as-Source Document Schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "specVersion",
+    "project",
+    "owner",
+    "lastUpdated",
+    "overview",
+    "domainModel",
+    "capabilities",
+    "requirements",
+    "qualityAttributes",
+    "dataContracts",
+    "testOracles",
+    "risksDecisions",
+    "operability",
+    "changeManagement",
+    "appendixGlossary"
+  ],
+  "properties": {
+    "specVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "From frontmatter: spec-version (e.g., 0.1.0)."
+    },
+    "project": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lastUpdated": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "ISO date YYYY-MM-DD from frontmatter last-updated."
+    },
+    "overview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "intent",
+        "principles"
+      ],
+      "properties": {
+        "intent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "principles": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "domainModel": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "entities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Structured summary of entities/events/relationships/constraints."
+    },
+    "capabilities": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "$ref": "#/$defs/capability"
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/atom"
+      }
+    },
+    "qualityAttributes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/qualityAttribute"
+      }
+    },
+    "dataContracts": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "apis": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/apiContract"
+          }
+        },
+        "schemas": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "testOracles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "input",
+          "action",
+          "expected"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "input": {
+            "type": [
+              "string",
+              "object",
+              "array"
+            ]
+          },
+          "action": {
+            "type": "string"
+          },
+          "expected": {
+            "type": [
+              "string",
+              "object",
+              "array"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "risksDecisions": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "adrs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "title",
+              "decision"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "decision": {
+                "type": "string"
+              },
+              "context": {
+                "type": "string"
+              },
+              "consequences": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "risks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "title"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "mitigation": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    "operability": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "slos": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "alerts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "runbooks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "changeManagement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "process",
+        "requiredApprovals",
+        "checks"
+      ],
+      "properties": {
+        "process": {
+          "type": "string"
+        },
+        "requiredApprovals": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "appendixGlossary": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "acronyms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "term",
+              "meaning"
+            ],
+            "properties": {
+              "term": {
+                "type": "string"
+              },
+              "meaning": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "glossary": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "term",
+              "definition"
+            ],
+            "properties": {
+              "term": {
+                "type": "string"
+              },
+              "definition": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "intent",
+        "atoms"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^CAP-\\d{2,}$"
+        },
+        "title": {
+          "type": "string"
+        },
+        "intent": {
+          "type": "string"
+        },
+        "kpis": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "atoms": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^(RQ|ALG|QAT)-\\d{3,}$"
+          }
+        },
+        "visualAids": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/visualAidFigma"
+              },
+              {
+                "$ref": "#/$defs/visualAidMermaid"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "visualAidFigma": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "title",
+        "url",
+        "fileKey",
+        "nodeId",
+        "version",
+        "updated"
+      ],
+      "properties": {
+        "type": {
+          "const": "figma"
+        },
+        "title": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "fileKey": {
+          "type": "string"
+        },
+        "nodeId": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "updated": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "relatesTo": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(RQ|ALG|QAT)-\\d{3,}$"
+          }
+        }
+      }
+    },
+    "visualAidMermaid": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "title",
+        "path",
+        "version",
+        "updated"
+      ],
+      "properties": {
+        "type": {
+          "const": "mermaid"
+        },
+        "title": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "updated": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "relatesTo": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(RQ|ALG|QAT)-\\d{3,}$"
+          }
+        }
+      }
+    },
+    "atom": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "scope",
+        "status",
+        "spec",
+        "acceptance"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(RQ|ALG|QAT)-\\d{3,}$"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Functional",
+            "Nonfunctional (Security)",
+            "Nonfunctional",
+            "Algorithm",
+            "Quality"
+          ]
+        },
+        "scope": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Proposed",
+            "Accepted",
+            "Deprecated",
+            "Removed"
+          ]
+        },
+        "dependsOn": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(RQ|ALG|QAT)-\\d{3,}$"
+          }
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "spec": {
+          "type": "string",
+          "minLength": 1
+        },
+        "invariants": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "acceptance": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "given",
+              "when",
+              "then"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "given": {
+                "type": "string"
+              },
+              "when": {
+                "type": "string"
+              },
+              "then": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "testVectors": {
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "array"
+            }
+          ],
+          "description": "Arbitrary JSON payloads used for tests/evals."
+        },
+        "prompts": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "GEN-CODE": {
+              "type": "string"
+            },
+            "GEN-TESTS": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "qualityAttribute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^QAT-\\d{2,}$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "criteria": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "apiContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "request",
+        "response"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "GET",
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE"
+          ],
+          "default": "POST"
+        },
+        "path": {
+          "type": "string"
+        },
+        "request": {
+          "type": [
+            "object",
+            "array",
+            "string"
+          ]
+        },
+        "response": {
+          "type": [
+            "object",
+            "array",
+            "string"
+          ]
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
