@@ -1,6 +1,6 @@
-# Spec-as-Source
+# SPECaS (Spec-as-Source)
 
-A lightweight framework for treating product specs as **source code**: human-readable, AI-executable, and enforced through Git-native workflows.
+Proposes to be an oopen standard for a lightweight framework for treating product specs as **source code**: human-readable, AI-executable, and enforced through Git-native workflows.
 
 ## Why
 Classic specs fell out of favor in agile shops—too long, out of date, rarely read. Modern AI changes the calculus: short **atomic requirements** (atoms) with invariants, acceptance, test vectors, and prompts can be diffed, reviewed (deliberated), executed, and evaluated—just like code.
